@@ -1,29 +1,29 @@
 import { getModelToken } from '@nestjs/sequelize';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 
 import { Contact } from '../models/contact.model';
 import { ContactService } from '../services/contact.service';
-import { ContactController } from './contact.controller';
+import { CastContactPipe } from './cast-contact.pipe';
 
-describe('ContactController', () => {
-  let controller: ContactController;
+describe('CastContactPipe', () => {
+  let pipe: CastContactPipe;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [ContactController],
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: getModelToken(Contact),
           useValue: {},
         },
         ContactService,
+        CastContactPipe,
       ],
     }).compile();
 
-    controller = module.get<ContactController>(ContactController);
+    pipe = module.get<CastContactPipe>(CastContactPipe);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(pipe).toBeInstanceOf(CastContactPipe);
   });
 });
